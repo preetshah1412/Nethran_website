@@ -1,0 +1,978 @@
+:root {
+  --bg: #000000;
+  --panel: #5194ff3f;
+  --text: #e6edf3;
+  --muted: #9fb1c1;
+  --ring: #9bd1ff;
+  --accent: #5194ff3f;
+  --accentGlow: rgba(255, 255, 255, .12);
+  --mx: 0;
+  --my: 0;
+  --nx: .5;
+  --ny: .5;
+  --cx: 50%;
+  --cy: 50%;
+}
+
+* {
+  box-sizing: border-box
+}
+
+html,
+body,
+#root {
+  height: 100%
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+  color: var(--text);
+  background: var(--bg)
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px
+}
+
+.section {
+  position: relative;
+  padding: 96px 0
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 50;
+  backdrop-filter: saturate(160%) blur(12px);
+  background: #000;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 20px;
+  background: linear-gradient(to bottom, #000, transparent);
+  animation: headerBlend 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes headerBlend {
+  0% {
+    height: 15px;
+    opacity: 0.6
+  }
+
+  100% {
+    height: 35px;
+    opacity: 0.9
+  }
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  max-width: 100%;
+  padding: 0 48px;
+}
+
+main {
+  padding-top: 80px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: 0.5px
+}
+
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+}
+
+.brand-text {
+  font-weight: 800;
+  font-size: 26px;
+  font-family: 'Times New Roman', serif
+}
+
+/* Ensure visible occurrences of the site name use Times New Roman and bold */
+.brand-line,
+.brand-text,
+.brand-name {
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 800;
+}
+
+.nav {
+  display: flex;
+  gap: 24px
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text);
+  opacity: 0.9;
+  padding: 10px 0;
+  position: relative
+}
+
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, .65));
+  transition: width .25s
+}
+
+.nav a:hover::after,
+.nav a.cta::after {
+  width: 100%
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  position: relative
+}
+
+.hamburger span {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .25s
+}
+
+.hamburger span:nth-child(1) {
+  top: 12px
+}
+
+.hamburger span:nth-child(2) {
+  top: 19px
+}
+
+.hamburger span:nth-child(3) {
+  top: 26px
+}
+
+@media (max-width: 880px) {
+  .hamburger {
+    display: inline-block
+  }
+
+  .nav {
+    position: absolute;
+    right: 24px;
+    top: 64px;
+    flex-direction: column;
+    background: #000;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .45);
+    display: none
+  }
+
+  .nav.open {
+    display: flex
+  }
+}
+
+.hero {
+  overflow: hidden
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center
+}
+
+
+.headline {
+  font-size: clamp(32px, 6.5vw, 64px);
+  line-height: 1.05;
+  margin: 0 0 16px;
+  letter-spacing: .5px
+}
+
+.subhead {
+  font-size: clamp(16px, 3vw, 22px);
+  color: var(--muted);
+  max-width: 800px;
+  margin: 0 auto 28px
+}
+
+.cta-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 32px
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid color-mix(in oklab, var(--text) 30%, transparent);
+  color: var(--text);
+  transition: transform .18s, box-shadow .18s
+}
+
+.btn.primary {
+  border: 0;
+  background: linear-gradient(135deg, #0affef, #ffb347);
+  color: #041116;
+  text-shadow: none;
+  box-shadow: 0 8px 24px rgba(10, 255, 239, .28), inset 0 0 12px rgba(255, 255, 255, .25)
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(10, 255, 239, .35), inset 0 0 16px rgba(255, 255, 255, .35)
+}
+
+.btn.ghost:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(121, 192, 255, .25)
+}
+
+.stats {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, .06);
+  border-radius: 12px;
+  padding: 14px 18px;
+  min-width: 140px
+}
+
+.stat .num {
+  font-weight: 800;
+  font-size: 20px
+}
+
+.stat .label {
+  color: var(--muted);
+  font-size: 13px
+}
+
+.lead {
+  color: var(--muted);
+  max-width: 800px
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: center
+}
+
+.card,
+.team-card,
+.service-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(0, 51, 255, .08), rgba(234, 40, 255, .05)), var(--panel);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, .45);
+}
+
+.card::before,
+.team-card::before,
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: -40% 0 auto 0;
+  height: 140%;
+  background: radial-gradient(circle at top, rgba(0, 51, 255, .3), transparent 65%),
+    radial-gradient(circle at 30% 20%, rgba(234, 40, 255, .35), transparent 55%);
+  opacity: .8;
+  z-index: -2;
+  animation: cardAurora 9s ease-in-out infinite alternate;
+}
+
+.card::after,
+.team-card::after,
+.service-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0));
+  z-index: -1;
+}
+
+.team-card::before {
+  inset: -30% -10% auto -10%;
+  background: radial-gradient(circle at 15% 25%, rgba(0, 255, 214, .35), transparent 55%),
+    radial-gradient(circle at 80% 15%, rgba(255, 255, 255, .2), transparent 60%),
+    radial-gradient(circle at 40% 85%, rgba(0, 51, 255, .25), transparent 65%);
+  animation: teamAurora 12s ease-in-out infinite alternate;
+}
+
+.team-card::after {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(0, 0, 0, .25));
+}
+
+.service-card::before {
+  inset: -90% auto auto -90%;
+  width: 280%;
+  height: 280%;
+  border-radius: 50%;
+  background: conic-gradient(from 30deg, rgba(0, 51, 255, .45), rgba(234, 40, 255, .35), rgba(0, 247, 255, .45), rgba(0, 51, 255, .45));
+  filter: blur(18px);
+  opacity: 0.55;
+  animation: serviceFlow 22s linear infinite;
+}
+
+.service-card::after {
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at -20% 50%, rgba(0, 122, 255, .55), transparent 55%),
+    radial-gradient(circle at 120% 50%, rgba(239, 71, 255, .45), transparent 55%),
+    radial-gradient(circle at 50% 120%, rgba(0, 247, 255, .25), transparent 55%),
+    linear-gradient(145deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0));
+  mix-blend-mode: screen;
+  opacity: .9;
+}
+
+.card {
+  padding: 20px;
+}
+
+.team {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px
+}
+
+.team-card {
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: center
+}
+
+.name {
+  font-weight: 600
+}
+
+.role {
+  color: var(--muted);
+  font-size: 13px
+}
+
+@media (max-width: 880px) {
+
+  .values,
+  .team {
+    grid-template-columns: 1fr
+  }
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 18px
+}
+
+.service-card {
+  padding: 20px;
+  text-decoration: none;
+  color: var(--text)
+}
+
+.service-card h3 {
+  margin: 6px 0 8px
+}
+
+.service-card p {
+  color: var(--muted)
+}
+
+.service-icon {
+  font-size: 26px
+}
+
+@keyframes cardAurora {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: translateY(-10%) scale(1.08);
+    opacity: .95;
+  }
+}
+
+@keyframes teamAurora {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(4%, -3%) rotate(2deg);
+  }
+
+  100% {
+    transform: translate(-3%, 5%) rotate(-2deg);
+  }
+}
+
+@keyframes serviceFlow {
+  0% {
+    transform: rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+
+  50% {
+    filter: hue-rotate(40deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+    filter: hue-rotate(80deg);
+  }
+}
+
+@media (max-width: 880px) {
+  .service-grid {
+    grid-template-columns: 1fr
+  }
+}
+
+.testimonials .carousel {
+  position: relative;
+  overflow: hidden
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity .4s, transform .4s
+}
+
+.slide.active {
+  position: relative;
+  opacity: 1;
+  transform: translateX(0)
+}
+
+.stars {
+  color: #e6edf3;
+  margin-bottom: 6px
+}
+
+.quote {
+  font-size: 18px;
+  line-height: 1.6
+}
+
+.author {
+  color: var(--muted);
+  margin-top: 8px
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .2);
+  border: 0
+}
+
+.dot.on {
+  background: linear-gradient(135deg, rgba(255, 255, 255, .25), rgba(255, 255, 255, .75))
+}
+
+.contact-form {
+  display: grid;
+  gap: 16px
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px
+}
+
+.fields textarea {
+  grid-column: 1 / -1
+}
+
+.fields input,
+.fields select,
+.fields textarea {
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, .08);
+  color: var(--text);
+  border-radius: 10px;
+  height: 42px;
+  padding: 0 12px;
+  outline: none
+}
+
+/* Dropdowns use the requested bluish accent with semi-transparency and white text */
+.fields select,
+select {
+  background: #5194ff3f; /* requested color (RRGGBBAA) for native selects */
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 10px;
+  height: 42px;
+  padding: 0 40px 0 12px; /* leave room for arrow */
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpolyline points='1,1 5,5 9,1' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: calc(100% - 18px) center;
+  background-size: 10px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Options in many browsers can't be fully styled; this provides a fallback */
+.fields select option,
+select option {
+  background: #5194ff3f;
+  color: #fff;
+}
+
+/* react-select minimal theming overrides */
+.react-select-container .react-select__control {
+  background: #5194ff3f;
+  border-radius: 10px;
+  min-height: 42px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: none;
+}
+.react-select-container .react-select__control--is-focused {
+  box-shadow: 0 0 0 2px rgba(81,148,255,0.12);
+}
+.react-select-container .react-select__single-value {
+  color: #fff;
+}
+.react-select-container .react-select__menu {
+  /* Make the menu more opaque and blur the background beneath it to avoid visible overlap */
+  background: #5194ff3f;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  z-index: 2000;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.react-select-container .react-select__option {
+  background: transparent;
+  color: #fff;
+}
+.react-select-container .react-select__option--is-focused,
+.react-select-container .react-select__option--is-selected {
+  background: rgba(255,255,255,0.08);
+}
+
+.fields textarea {
+  padding: 12px;
+  height: auto
+}
+
+.fields input:focus,
+.fields select:focus,
+.fields textarea:focus {
+  box-shadow: 0 0 0 2px var(--ring)
+}
+
+.success {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 10px
+}
+
+.pulse {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, .08));
+  animation: pulse 1.6s ease-in-out infinite
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, .28)
+  }
+
+  100% {
+    transform: scale(1.6);
+    box-shadow: 0 0 0 18px rgba(255, 255, 255, 0)
+  }
+}
+
+
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  background: color-mix(in oklab, var(--bg) 84%, transparent);
+  padding: 24px 0;
+  margin-top: 48px
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+.foot-links {
+  display: flex;
+  gap: 18px
+}
+
+.foot-links a {
+  color: var(--muted);
+  text-decoration: none
+}
+
+/* Logo sizing handled above; keep brand-text size there. */
+.spotlight {
+  position: relative;
+  transition: transform .18s, box-shadow .18s
+}
+
+.spotlight:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px var(--accentGlow)
+}
+
+.tilt {
+  transform-style: preserve-3d;
+  perspective: 600px
+}
+
+.tilt:hover {
+  transform: rotateX(2deg) rotateY(-2deg)
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important
+  }
+}
+
+.app {
+  position: relative
+}
+
+.bgfx {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none
+}
+
+main,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+.bgfx-stripes {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  background-image: repeating-linear-gradient(-30deg, rgba(255, 255, 255, .06) 0 12px, transparent 12px 32px);
+  opacity: .10;
+  transform: translate3d(calc((var(--nx) - .5) * 4%), calc((var(--ny) - .5) * 4%), 0);
+  animation: stripes-breathe 12s ease-in-out infinite
+}
+
+@keyframes stripes-breathe {
+  0% {
+    opacity: .06
+  }
+
+  50% {
+    opacity: .12
+  }
+
+  100% {
+    opacity: .06
+  }
+}
+
+.bgfx-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  transform: translateZ(0);
+  animation: grid-fade 10s linear infinite
+}
+
+@keyframes grid-fade {
+  0% {
+    opacity: .12
+  }
+
+  50% {
+    opacity: .18
+  }
+
+  100% {
+    opacity: .12
+  }
+}
+
+.bgfx-particles {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, .20), transparent 60%), radial-gradient(2px 2px at 80% 60%, rgba(255, 255, 255, .18), transparent 60%), radial-gradient(2px 2px at 60% 20%, rgba(255, 255, 255, .16), transparent 60%), radial-gradient(2px 2px at 30% 80%, rgba(255, 255, 255, .16), transparent 60%);
+  animation: particles-drift 24s linear infinite;
+  transform: translate3d(calc((var(--nx) - .5) * 8%), calc((var(--ny) - .5) * -8%), 0)
+}
+
+@keyframes particles-drift {
+  0% {
+    transform: translate3d(0, 0, 0)
+  }
+
+  50% {
+    transform: translate3d(1.5%, -1.5%, 0)
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0)
+  }
+}
+
+
+
+.bgfx-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 120% at 50% 50%, transparent 60%, rgba(0, 0, 0, .35) 100%)
+}
+
+.bgfx-trail {
+  position: absolute;
+  inset: 0
+}
+
+.trail-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .18);
+  filter: blur(2px);
+  will-change: transform, opacity
+}
+
+.splash {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(12px 12px at 50% 50%, rgba(255, 255, 255, .35), transparent 60%);
+  animation: splash-pop 1.2s ease-out forwards
+}
+
+@keyframes splash-pop {
+  0% {
+    transform: scale(.8);
+    opacity: .8
+  }
+
+  60% {
+    transform: scale(12);
+    opacity: .25
+  }
+
+  100% {
+    transform: scale(14);
+    opacity: 0
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(8px);
+  transition: opacity .5s ease, transform .5s ease, filter .5s ease
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0)
+}
+
+.entrance {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  opacity: 1;
+  transition: opacity .7s ease;
+  overflow: hidden
+}
+
+.entrance.closing {
+  opacity: 0
+}
+
+.entrance-inner {
+  text-align: center
+}
+
+.entrance-logo {
+  width: clamp(60px, 12vw, 128px);
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+  opacity: 0;
+  transform: scale(.92);
+  filter: blur(14px) brightness(1.2);
+  animation: logoPop .7s ease-out forwards;
+  transform-origin: 50% 50%
+}
+
+@keyframes logoPop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) brightness(1.0)
+  }
+}
+
+.entrance.zoom .entrance-logo {
+  animation: logoZoom 1.2s ease-out forwards
+}
+
+@keyframes logoZoom {
+  0% {
+    transform: translateZ(0) scale(1);
+    filter: blur(0)
+  }
+
+  60% {
+    transform: translateZ(100px) scale(8);
+    filter: blur(6px);
+    box-shadow: 0 0 80px rgba(255, 255, 255, .2)
+  }
+
+  100% {
+    transform: translateZ(200px) scale(16);
+    filter: blur(14px);
+    box-shadow: 0 0 120px rgba(255, 255, 255, .25)
+  }
+}
+
+.entrance.zoom {
+  perspective: 800px
+}
+
+.entrance.zoom .word,
+.entrance.zoom .typed {
+  opacity: 0;
+  transform: translateY(-10px);
+  filter: blur(6px);
+  transition: opacity .3s ease, transform .3s ease, filter .3s ease
+}
+
+.word {
+  display: inline-flex;
+  gap: .06em;
+  font-weight: 800;
+  font-size: clamp(40px, 9vw, 108px);
+  letter-spacing: .04em
+}
+
+.word span {
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(8px);
+  animation: splitIn .6s cubic-bezier(.2, .8, .2, 1) forwards;
+  animation-delay: calc(var(--i) * 80ms)
+}
+
+@keyframes splitIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0)
+  }
+}
+
+.typed {
+  margin-top: 16px;
+  font-family: JetBrains Mono, monospace;
+  color: #c9d1d9;
+  font-size: clamp(16px, 2.8vw, 22px)
+}
+
+/* end cursor-related CSS (reverted) */
