@@ -7,6 +7,7 @@ import SplashCursor from './components/SplashCursor.jsx'
 import Hero from './components/Hero.jsx'
 import About from './components/About.jsx'
 import Services from './components/Services.jsx'
+import ServiceWorkflow from './components/ServiceWorkflow.jsx'
 import Testimonials from './components/Testimonials.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
@@ -54,6 +55,7 @@ export default function App() {
         <Hero />
         <About />
         <Services />
+        <ServiceWorkflow />
         <Testimonials />
         <Contact />
       </main>

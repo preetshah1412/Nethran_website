@@ -703,12 +703,14 @@ main {
 /* Dropdowns use the requested bluish accent with semi-transparency and white text */
 .fields select,
 select {
-  background: #5194ff3f; /* requested color (RRGGBBAA) for native selects */
+  background: #5194ff3f;
+  /* requested color (RRGGBBAA) for native selects */
   color: #fff;
   border: 1px solid rgba(255, 255, 255, .08);
   border-radius: 10px;
   height: 42px;
-  padding: 0 40px 0 12px; /* leave room for arrow */
+  padding: 0 40px 0 12px;
+  /* leave room for arrow */
   outline: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -731,15 +733,18 @@ select option {
   background: #5194ff3f;
   border-radius: 10px;
   min-height: 42px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: none;
 }
+
 .react-select-container .react-select__control--is-focused {
-  box-shadow: 0 0 0 2px rgba(81,148,255,0.12);
+  box-shadow: 0 0 0 2px rgba(81, 148, 255, 0.12);
 }
+
 .react-select-container .react-select__single-value {
   color: #fff;
 }
+
 .react-select-container .react-select__menu {
   /* Make the menu more opaque and blur the background beneath it to avoid visible overlap */
   background: #5194ff3f;
@@ -748,17 +753,19 @@ select option {
   overflow: hidden;
   backdrop-filter: blur(100px);
   -webkit-backdrop-filter: blur(100px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
   z-index: 2000;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
+
 .react-select-container .react-select__option {
   background: transparent;
   color: #fff;
 }
+
 .react-select-container .react-select__option--is-focused,
 .react-select-container .react-select__option--is-selected {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .fields textarea {
@@ -1112,3 +1119,175 @@ main,
 }
 
 /* end cursor-related CSS (reverted) */
+
+/* Service Workflow Styles */
+.process-steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 56px;
+  position: relative;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  /* space for scrollbar if needed on small screens */
+}
+
+/* Container for step + connector */
+.process-step-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 160px;
+  /* prevent squishing too much */
+}
+
+/* The Connector Line (Desktop) */
+.process-connector {
+  display: none;
+  /* hidden by default, handled via pseudo or flex gap usually, but here we want a specific line */
+}
+
+/* We'll use a pseudo element on the container or card to draw lines between them */
+.process-steps::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  /* Align with icon center roughly */
+  left: 50px;
+  right: 50px;
+  height: 2px;
+  background: linear-gradient(90deg,
+      rgba(81, 148, 255, 0) 0%,
+      rgba(81, 148, 255, 0.3) 15%,
+      rgba(81, 148, 255, 0.3) 85%,
+      rgba(81, 148, 255, 0) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.process-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  padding: 24px 16px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  z-index: 1;
+  /* above the line */
+}
+
+.process-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 51, 255, 0.15);
+  border-color: rgba(81, 148, 255, 0.3);
+}
+
+.process-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  color: #5194ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  /* for z-index context */
+}
+
+.process-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.process-card:hover .process-icon {
+  color: #fff;
+  background: #5194ff;
+  box-shadow: 0 0 20px rgba(81, 148, 255, 0.4);
+}
+
+.process-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.process-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: auto;
+  /* Push number to bottom if we want */
+}
+
+.process-number {
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.1);
+  letter-spacing: 1px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+  .process-steps {
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+    align-items: center;
+  }
+
+  .process-steps::before {
+    display: none;
+    /* Hide horizontal line */
+  }
+
+  .process-step-container {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* Vertical Connector Line */
+  .process-step-container:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -24px;
+    height: 24px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-50%);
+  }
+
+  .process-card {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .process-icon {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .process-desc {
+    margin-bottom: 0;
+  }
+
+  .process-number {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    margin-top: 0;
+  }
+}

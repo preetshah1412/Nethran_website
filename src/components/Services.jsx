@@ -14,8 +14,24 @@ const services = [
     text: 'High-performing marketing sites, portals, and commerce experiences.',
   },
   {
-    title: 'Consultancy',
-    text: 'Strategic technology advisory, roadmaps, and executive guidance.',
+    title: 'AI Chatbot Development',
+    text: 'Smart, context-aware chatbots that deliver human-like 24/7 support across web, apps, and messaging platforms.',
+  },
+  {
+    title: 'IT Consulting & Strategy',
+    text: 'Expert guidance on digital transformation, cybersecurity, and cloud adoption to align technology with your business goals.',
+  },
+  {
+    title: 'Generative AI Solutions',
+    text: 'Custom generative AI solutions to automate designs, generate content, and optimize business logic for growth.',
+  },
+  {
+    title: 'Cloud & DevOps',
+    text: 'Scalable cloud infrastructure and automated CI/CD pipelines for robust, high-performance deployment.',
+  },
+  {
+    title: 'Data Analytics & BI',
+    text: 'Transform raw data into actionable insights with custom dashboards and predictive analytics.',
   },
   {
     title: 'Comprehensive Delivery',
