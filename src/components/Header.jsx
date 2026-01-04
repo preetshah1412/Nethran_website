@@ -15,7 +15,7 @@ export default function Header() {
           <a href="#about">About Us</a>
           <a href="#services">Services</a>
           <a href="#testimonials">Testimonials</a>
-          <a href="#contact" className="cta">Contact</a>
+          <a href="#contact">Contact</a>
         </nav>
         <button className="hamburger" aria-label="Toggle navigation" onClick={() => setOpen(v => !v)}>
           <span />

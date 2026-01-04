@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import Select from 'react-select'
 import emailjs from '@emailjs/browser'
+import { supabase } from '../supabaseClient'
 
 const topicOptions = [
   { value: 'business-software', label: 'Business Software' },
@@ -20,34 +21,76 @@ export default function Contact() {
   const [error, setError] = useState('')
   const form = useRef()
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault()
     if (!form.current.reportValidity()) return
 
     setLoading(true)
     setError('')
 
-    // REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS
-    // Sign up at https://www.emailjs.com/
-    const SERVICE_ID = 'YOUR_SERVICE_ID'
-    const TEMPLATE_ID = 'YOUR_TEMPLATE_ID'
-    const PUBLIC_KEY = 'YOUR_PUBLIC_KEY'
+    const formData = new FormData(form.current)
+    const submission = {
+      user_name: formData.get('user_name'),
+      user_email: formData.get('user_email'),
+      company: formData.get('company'),
+      topic: formData.get('topic'),
+      message: formData.get('message'),
+    }
 
-    emailjs
-      .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, {
+    try {
+      console.log('Submitting form...');
+      // Run Supabase and EmailJS in parallel, but handle failures independently
+      const supabasePromise = supabase
+        .from('contacts')
+        .insert([submission])
+
+      const SERVICE_ID = 'service_d4fye7w'
+      const TEMPLATE_ID = 'template_idvsxey'
+      const PUBLIC_KEY = '3ipeMcZv05FHVRDLH'
+
+      // Only attempt EmailJS if keys look somewhat valid to avoid noise, 
+      // or just try and expect failure. 
+      const emailPromise = emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, {
         publicKey: PUBLIC_KEY,
       })
-      .then(
-        () => {
-          setLoading(false)
-          setSent(true)
-        },
-        err => {
-          setLoading(false)
-          setError('Failed to send message. Please try again later.')
-          console.error('FAILED...', err.text)
+
+      const results = await Promise.allSettled([supabasePromise, emailPromise])
+      const [supabaseResult, emailResult] = results
+
+      // Check Supabase result
+      // Supabase .insert() usually returns { data, error }, it doesn't throw unless network fail
+      // but the promise itself resolves to that object.
+      // Wait: supabase-js v2 returns { error } but DOES NOT reject the promise for SQL errors usually.
+      // It implies supabasePromise will virtually always be 'fulfilled' (resolved),
+      // but the *value* inside will contain .error if it failed.
+
+      let supabaseError = null;
+      if (supabaseResult.status === 'fulfilled') {
+        if (supabaseResult.value.error) {
+          supabaseError = supabaseResult.value.error;
         }
-      )
+      } else {
+        supabaseError = supabaseResult.reason;
+      }
+
+      if (emailResult.status === 'rejected') {
+        console.warn('EmailJS failed (expected if keys are missing):', emailResult.reason)
+      }
+
+      if (supabaseError) {
+        throw supabaseError
+      }
+
+      // If we got here, Supabase succeeded (or didn't return an error).
+      // We accept the submission as successful even if EmailJS failed.
+      setLoading(false)
+      setSent(true)
+
+    } catch (err) {
+      setLoading(false)
+      console.error('Submission Failed:', err)
+      setError(`Failed: ${err.message || 'Unknown error'}`)
+    }
   }
 
   return (
@@ -60,14 +103,7 @@ export default function Contact() {
               <input type="text" name="user_name" placeholder="Your name" required />
               <input type="email" name="user_email" placeholder="Email" required />
               <input type="text" name="company" placeholder="Company" />
-              {/* React Select needs manual handling for EmailJS or a hidden input. 
-                  Simplest way for EmailJS form ref is to use a hidden input or 
-                  just rely on the fact user picks one. 
-                  Actually, react-select doesn't pass native value easily to form ref.
-                  Let's stick to a standard select for reliability with form.current, 
-                  OR use a hidden input synced with state. 
-                  For now to minimize complexity, I'll switch to standard select 
-                  styled to look good, OR just add a hidden input. */}
+              {/* React Select needs manual handling for a hidden input. */}
               <div style={{ gridColumn: '1 / -1', position: 'relative', zIndex: 10 }}>
                 <Select
                   name="topic_select" /* specific name so we don't confuse it */
@@ -77,9 +113,6 @@ export default function Contact() {
                   placeholder="Topic"
                   isSearchable={false}
                   onChange={(val) => {
-                    // Update hidden input if needed, but EmailJS reads name attributes.
-                    // React-Select creates hidden inputs with name="topic" by default in newer versions?
-                    // Let's manually ensure the value is captured in a hidden input for EmailJS
                     const input = form.current.querySelector('input[name="topic"]')
                     if (input) input.value = val.value
                   }}
