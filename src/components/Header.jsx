@@ -10,10 +10,11 @@ export default function Header() {
           <img src={logo} alt="Nethran logo" className="brand-logo" />
           <span className="brand-text">Nethran</span>
         </a>
-        <nav className={`nav ${open ? 'open' : ''}`} aria-label="Primary">
+        <nav className={`nav ${open ? 'open' : ''}`} aria-label="Primary" onClick={() => setOpen(false)}>
           <a href="#home">Home</a>
           <a href="#about">About Us</a>
           <a href="#services">Services</a>
+          <a href="#process">Process</a>
           <a href="#testimonials">Testimonials</a>
           <a href="#contact">Contact</a>
         </nav>

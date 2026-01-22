@@ -7,6 +7,11 @@ function SplashCursor() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // PERFORMANCE OPTIMIZATION: Disable fluid simulation on mobile devices
+    // This saves massive GPU/Battery usage on phones where the effect isn't visible under finger anyway
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    if (isMobile) return;
+
     let config = {
       SIM_RESOLUTION: 128,
       DYE_RESOLUTION: 512,
@@ -376,8 +381,8 @@ function SplashCursor() {
       const r = ext.formatR;
 
       if (!rgba || !rg || !r) {
-        console.warn('SplashCursor: Required texture formats not supported.');
-        return;
+        // console.warn('SplashCursor: Required texture formats not supported.'); 
+        return; // Silently fail or just return, avoiding error spam
       }
 
       density = createDoubleFBO(gl, dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, gl.LINEAR);

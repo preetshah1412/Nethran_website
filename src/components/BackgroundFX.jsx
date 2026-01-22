@@ -44,8 +44,15 @@ export default function BackgroundFX() {
       rafId = requestAnimationFrame(loop)
     }
 
-    window.addEventListener('mousemove', onMove)
+    // Only add mouse move listener if not a touch device to save perf
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (!isTouch) {
+      window.addEventListener('mousemove', onMove)
+    }
+
     const onClick = (e) => {
+      // Disable splash on touch devices to prevent clutter/confusion
+      if (isTouch) return
       const splash = document.createElement('div')
       splash.className = 'splash'
       splash.style.left = `${e.clientX}px`
@@ -56,7 +63,7 @@ export default function BackgroundFX() {
     window.addEventListener('click', onClick)
     rafId = requestAnimationFrame(loop)
     return () => {
-      window.removeEventListener('mousemove', onMove)
+      if (!isTouch) window.removeEventListener('mousemove', onMove)
       window.removeEventListener('click', onClick)
       cancelAnimationFrame(rafId)
     }

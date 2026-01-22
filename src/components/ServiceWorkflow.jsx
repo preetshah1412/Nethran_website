@@ -80,8 +80,10 @@ export default function ServiceWorkflow() {
                             {idx !== 0 && <div className="process-connector"></div>}
                             <div className="process-card card">
                                 <div className="process-icon">{step.icon}</div>
-                                <h3 className="process-title">{step.title}</h3>
-                                <p className="process-desc">{step.desc}</p>
+                                <div>
+                                    <h3 className="process-title">{step.title}</h3>
+                                    <p className="process-desc">{step.desc}</p>
+                                </div>
                                 <div className="process-number">0{step.id}</div>
                             </div>
                         </div>
